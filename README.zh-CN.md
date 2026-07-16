@@ -1,4 +1,8 @@
-# AISoul Forge
+<p align="right">
+  <a href="./README.md">English</a> · <strong>简体中文</strong>
+</p>
+
+# 造化（Zaohua）· AISoul Forge
 
 AISoul Forge 是一个纯本地运行的 AI 灵魂锻造 Skill，用于创建、修复、融合、
 演进、试镜和验证 AI 灵魂包。它生成六类运行时源文件，并按照 SOUL-6 开放标准
@@ -22,7 +26,33 @@ AISoul Forge 是一个纯本地运行的 AI 灵魂锻造 Skill，用于创建、
 - 自动生成包含身份、使用方式、SOUL-6 与试镜结果的中英文包 README
 - 生成机器可读报告、用户可读报告和本地 ZIP 包
 
-## 六类运行时文件
+## 安装 Skill
+
+将 `skill/forge-ai-soul` 复制或链接到 AI Agent 宿主使用的 Skill 目录。Skill
+采用标准 `SKILL.md` 结构，并在 `agents/openai.yaml` 中提供 Codex 界面元数据。
+
+唯一的运行时前置条件是 Node.js 20 或更高版本。
+
+## 本地 CLI
+
+在仓库根目录运行：
+
+```bash
+node skill/forge-ai-soul/scripts/forge.mjs help
+node skill/forge-ai-soul/scripts/forge.mjs init ./output/my-soul \
+  --name "我的灵魂" --slug my-soul --language zh-CN
+node skill/forge-ai-soul/scripts/forge.mjs validate ./output/my-soul --write
+node skill/forge-ai-soul/scripts/forge.mjs audition-init ./output/my-soul
+node skill/forge-ai-soul/scripts/forge.mjs audition-evaluate ./output/my-soul
+node skill/forge-ai-soul/scripts/forge.mjs pack ./output/my-soul
+```
+
+`init` 只创建明确标注的脚手架。AI Agent 必须根据用户确认的灵魂蓝图替换全部
+模板标记后，才能声明完成锻造。
+
+## 包内容
+
+AI 灵魂包包含六类运行时文件：
 
 - `IDENTITY.md`：身份、角色、核心关系和不可打破设定
 - `USER.md`：用户位置、称呼、关系距离和隐私边界
@@ -33,24 +63,21 @@ AISoul Forge 是一个纯本地运行的 AI 灵魂锻造 Skill，用于创建、
 
 六类文件是职责分离，SOUL-6 是跨文件质量评价，两者不是一一对应关系。
 
+质量与来源产物和运行时指令严格分离：
+
+- `README.md`
+- `manifest.json`
+- `soul6-report.json`
+- `quality-check.md`
+- `forge-report.md`
+- `auditions/`
+
+试镜记录只属于合成质量验证，不是人格设定、运行时指令、记忆、真实用户对话或
+真实经历。
+
 每个生成包还包含面向使用者的 `README.md`，集中展示 AI 灵魂说明、接入方式、
 SOUL-6 结果、合成试镜样例与来源信息。它会随初始化、测评、试镜和打包自动刷新，
 但不属于运行时指令、人格设定或记忆，宿主不得自动加载。
-
-## 使用
-
-将 `skill/forge-ai-soul` 复制或链接到 Agent 宿主的 Skill 目录。运行时仅需要
-Node.js 20 或更高版本。
-
-```bash
-node skill/forge-ai-soul/scripts/forge.mjs help
-node skill/forge-ai-soul/scripts/forge.mjs init ./output/my-soul \
-  --name "我的灵魂" --slug my-soul --language zh-CN
-node skill/forge-ai-soul/scripts/forge.mjs validate ./output/my-soul --write
-```
-
-`init` 只创建明确标注的脚手架。AI Agent 必须根据用户确认的蓝图替换全部模板
-标记后，才能声明完成锻造。
 
 ## 完整示例
 
@@ -72,3 +99,13 @@ node skill/forge-ai-soul/scripts/forge.mjs validate ./output/my-soul --write
 - SOUL-6 来源：[AISoulHub.io](https://aisoulhub.io/about/review-metrics#soul6)
 
 本地 SOUL-6 结果属于自检，不代表 AISoulHub.io 已审核、认证、推荐或发布该内容。
+
+## 开发与验证
+
+```bash
+npm test
+npm run check
+npm run build:skill
+```
+
+项目刻意不引入运行时 npm 依赖。

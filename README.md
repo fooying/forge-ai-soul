@@ -1,4 +1,8 @@
-# AISoul Forge
+<p align="right">
+  <strong>English</strong> · <a href="./README.zh-CN.md">简体中文</a>
+</p>
+
+# Zaohua · AISoul Forge
 
 AISoul Forge is a local-first Skill for creating, repairing, merging, evolving,
 auditioning, and validating AI Soul packages. It produces six runtime files and
