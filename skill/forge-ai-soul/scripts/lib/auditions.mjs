@@ -240,7 +240,7 @@ function formatAuditionMarkdown(report, suite) {
     "",
     zh ? "本地试镜结果不代表 AISoulHub.io 已审核、认证或推荐该内容。" : "A local audition does not represent AISoulHub.io review, certification, or endorsement.",
   ];
-  return `${lines.join("\n")}\n`;
+  return `${lines.join("\n").replace(/\n+$/, "")}\n`;
 }
 
 function formatSampleMarkdown(testCase, result, language) {
@@ -259,7 +259,7 @@ function formatSampleMarkdown(testCase, result, language) {
     lines.push(`## ${zh ? "AI 灵魂" : "AI Soul"} ${index + 1}`, "", result.responses[index] || (zh ? "未运行" : "Not run"), "");
   }
   if (result.findings.length) lines.push(zh ? "## 发现" : "## Findings", "", ...result.findings.map((item) => `- ${item}`), "");
-  return `${lines.join("\n")}\n`;
+  return `${lines.join("\n").replace(/\n+$/, "")}\n`;
 }
 
 export async function evaluateAuditionReport(packageDirectory) {

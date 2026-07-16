@@ -65,6 +65,13 @@ Quality and provenance artifacts are separate from runtime instructions:
 Audition transcripts are synthetic QA artifacts. They are not canon, runtime
 instructions, memories, or real user conversations.
 
+## Complete Example
+
+[`examples/lumen`](examples/lumen) is a fully synthetic original Soul with six
+runtime files, a 100/100 canonical SOUL-6 report, six multi-turn audition
+artifacts, and no external source material. Tests use the same example as a
+positive fixture so it cannot silently drift away from the evaluator.
+
 ## Scope Boundary
 
 AISoul Forge does not distill, clone, or impersonate real people. Use a

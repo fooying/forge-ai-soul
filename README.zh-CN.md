@@ -42,6 +42,12 @@ node skill/forge-ai-soul/scripts/forge.mjs validate ./output/my-soul --write
 `init` 只创建明确标注的脚手架。AI Agent 必须根据用户确认的蓝图替换全部模板
 标记后，才能声明完成锻造。
 
+## 完整示例
+
+[`examples/lumen`](examples/lumen) 是一个完全合成的原创 AI 灵魂包，包含六类
+运行时文件、100/100 的 SOUL-6 标准报告、六组多轮试镜和完整来源说明。测试会
+直接把该示例作为正向夹具，防止示例与评分器静默漂移。
+
 ## 范围边界
 
 本项目不负责真人或公众人物蒸馏，也不允许欺骗性真人冒充。相关需求应使用专门

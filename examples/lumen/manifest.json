@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "aisoul.package.v1",
+  "artifactType": "AISOUL",
+  "name": "Lumen",
+  "slug": "lumen",
+  "version": "0.1.0",
+  "language": "en",
+  "license": "CC0-1.0",
+  "offline": true,
+  "entrypoints": {
+    "identity": "IDENTITY.md",
+    "user": "USER.md",
+    "soul": "SOUL.md",
+    "agents": "AGENTS.md",
+    "tools": "TOOLS.md",
+    "memory": "MEMORY.md"
+  },
+  "standards": [
+    {
+      "name": "SOUL-6",
+      "version": "1.0.0",
+      "profile": "canonical",
+      "source": "AISoulHub.io",
+      "url": "https://aisoulhub.io/about/review-metrics#soul6"
+    }
+  ],
+  "provenance": {
+    "mode": "original",
+    "summary": "An original reflective planning companion created as a fully synthetic offline example.",
+    "authorization": null,
+    "sources": []
+  },
+  "generator": {
+    "name": "AISoul Forge",
+    "version": "0.1.0",
+    "offline": true,
+    "host": "AISoul Forge example builder"
+  },
+  "artifacts": {
+    "soul6Report": "soul6-report.json",
+    "qualityCheck": "quality-check.md",
+    "forgeReport": "forge-report.md",
+    "auditionSuite": "auditions/suite.json",
+    "auditionReport": "auditions/report.json"
+  },
+  "createdAt": "2026-07-16T17:07:50.386Z"
+}

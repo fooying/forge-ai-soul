@@ -3,9 +3,16 @@ import path from "node:path";
 import { describe, it } from "node:test";
 import { readJson, writeJson } from "../skill/forge-ai-soul/scripts/lib/files.mjs";
 import { evaluateSoul6 } from "../skill/forge-ai-soul/scripts/lib/soul6-core.mjs";
-import { completeAuditions, completeRuntimeFiles, createScaffold, injectUnsafeDependency } from "./helpers.mjs";
+import { completeAuditions, completeExampleDirectory, completeRuntimeFiles, createScaffold, injectUnsafeDependency } from "./helpers.mjs";
 
 describe("SOUL-6 evaluator", () => {
+  it("keeps the published Lumen example at SOUL-6 Ready", async () => {
+    const report = await evaluateSoul6(completeExampleDirectory);
+    assert.equal(report.conformance.level, "SOUL-6 READY");
+    assert.equal(report.conformance.score, 100);
+    assert.equal(report.findings.length, 0);
+  });
+
   it("keeps unresolved scaffolds in Draft with capped scores", async () => {
     const directory = await createScaffold();
     const report = await evaluateSoul6(directory);
