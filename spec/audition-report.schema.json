@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aisoulhub.io/schemas/aisoul-audition-report.v1.json",
+  "title": "AI Soul Audition Report v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "status", "generatedAt", "evaluator", "syntheticOnly", "cases", "summary"],
+  "properties": {
+    "schemaVersion": { "const": "aisoul-audition-report.v1" },
+    "status": { "enum": ["NOT_RUN", "PASS", "FAIL"] },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "evaluator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "host", "model"],
+      "properties": {
+        "mode": { "enum": ["not-run", "self-review", "independent-review"] },
+        "host": { "type": ["string", "null"] },
+        "model": { "type": ["string", "null"] }
+      }
+    },
+    "syntheticOnly": { "const": true },
+    "cases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "status", "responses", "checks", "findings"],
+        "properties": {
+          "id": { "type": "string" },
+          "status": { "enum": ["NOT_RUN", "PASS", "FAIL"] },
+          "responses": { "type": "array", "items": { "type": "string" } },
+          "checks": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["expectation", "pass", "evidence"],
+              "properties": {
+                "expectation": { "type": "string" },
+                "pass": { "type": "boolean" },
+                "evidence": { "type": "string" }
+              }
+            }
+          },
+          "findings": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["total", "passed", "failed", "notRun"],
+      "properties": {
+        "total": { "type": "integer", "minimum": 0 },
+        "passed": { "type": "integer", "minimum": 0 },
+        "failed": { "type": "integer", "minimum": 0 },
+        "notRun": { "type": "integer", "minimum": 0 }
+      }
+    }
+  }
+}

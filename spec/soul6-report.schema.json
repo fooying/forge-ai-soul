@@ -1,0 +1,136 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aisoulhub.io/schemas/soul6-report.v1.json",
+  "title": "SOUL-6 Report v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "standard", "evaluator", "generatedAt", "canonicalWeights", "hardGates", "dimensions", "personification", "conformance", "audition", "findings"],
+  "properties": {
+    "schemaVersion": { "const": "soul6-report.v1" },
+    "standard": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version", "profile", "source", "url"],
+      "properties": {
+        "name": { "const": "SOUL-6" },
+        "version": { "const": "1.0.0" },
+        "profile": { "const": "canonical" },
+        "source": { "const": "AISoulHub.io" },
+        "url": { "const": "https://aisoulhub.io/about/review-metrics#soul6" }
+      }
+    },
+    "evaluator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version", "mode", "offline"],
+      "properties": {
+        "name": { "const": "soul6-core" },
+        "version": { "type": "string" },
+        "mode": { "const": "deterministic-local" },
+        "offline": { "const": true }
+      }
+    },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "canonicalWeights": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["personalityIntegrity", "behaviorExecutability", "styleConsistency", "relationBoundaries", "safetyEthicsInternalization", "lifecycleEvolution"],
+      "properties": {
+        "personalityIntegrity": { "const": 0.22 },
+        "behaviorExecutability": { "const": 0.18 },
+        "styleConsistency": { "const": 0.16 },
+        "relationBoundaries": { "const": 0.16 },
+        "safetyEthicsInternalization": { "const": 0.18 },
+        "lifecycleEvolution": { "const": 0.1 }
+      }
+    },
+    "hardGates": {
+      "type": "array",
+      "minItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "pass", "message"],
+        "properties": {
+          "id": { "type": "string" },
+          "pass": { "type": "boolean" },
+          "message": { "type": "string" }
+        }
+      }
+    },
+    "dimensions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["personalityIntegrity", "behaviorExecutability", "styleConsistency", "relationBoundaries", "safetyEthicsInternalization", "lifecycleEvolution"],
+      "properties": {
+        "personalityIntegrity": { "$ref": "#/$defs/dimension" },
+        "behaviorExecutability": { "$ref": "#/$defs/dimension" },
+        "styleConsistency": { "$ref": "#/$defs/dimension" },
+        "relationBoundaries": { "$ref": "#/$defs/dimension" },
+        "safetyEthicsInternalization": { "$ref": "#/$defs/dimension" },
+        "lifecycleEvolution": { "$ref": "#/$defs/dimension" }
+      }
+    },
+    "personification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["score", "pass", "missing"],
+      "properties": {
+        "score": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "pass": { "type": "boolean" },
+        "missing": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "conformance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["level", "pass", "score", "coreThreshold", "readyThreshold"],
+      "properties": {
+        "level": { "enum": ["DRAFT", "SOUL-6 CORE", "SOUL-6 READY"] },
+        "pass": { "type": "boolean" },
+        "score": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "coreThreshold": { "const": 60 },
+        "readyThreshold": { "const": 75 }
+      }
+    },
+    "audition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "reportPath"],
+      "properties": {
+        "status": { "enum": ["NOT_RUN", "PASS", "FAIL"] },
+        "reportPath": { "const": "auditions/report.json" }
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "severity", "dimension", "files", "message", "suggestion"],
+        "properties": {
+          "id": { "type": "string" },
+          "severity": { "enum": ["error", "warning", "info"] },
+          "dimension": { "type": ["string", "null"] },
+          "files": { "type": "array", "items": { "type": "string" } },
+          "message": { "type": "string" },
+          "suggestion": { "type": "string" }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "dimension": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["label", "score", "weight", "evidence", "missing"],
+      "properties": {
+        "label": { "type": "string" },
+        "score": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "weight": { "type": "number", "minimum": 0, "maximum": 1 },
+        "evidence": { "type": "array", "items": { "type": "string" } },
+        "missing": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}

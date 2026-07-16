@@ -1,0 +1,6 @@
+interface:
+  display_name: "AISoul Forge"
+  short_description: "Forge and validate offline AI Soul packages"
+  default_prompt: "Use $forge-ai-soul to create and validate an offline SOUL-6 AI Soul package from my requirements."
+policy:
+  allow_implicit_invocation: true

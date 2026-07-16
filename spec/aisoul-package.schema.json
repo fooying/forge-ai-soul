@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aisoulhub.io/schemas/aisoul-package.v1.json",
+  "title": "AI Soul Package Manifest v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "artifactType",
+    "name",
+    "slug",
+    "version",
+    "language",
+    "license",
+    "offline",
+    "entrypoints",
+    "standards",
+    "provenance",
+    "generator",
+    "artifacts",
+    "createdAt"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "aisoul.package.v1" },
+    "artifactType": { "const": "AISOUL" },
+    "name": { "type": "string", "minLength": 2, "maxLength": 120 },
+    "slug": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$", "maxLength": 80 },
+    "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+(?:-[0-9A-Za-z.-]+)?$" },
+    "language": { "enum": ["zh-CN", "en"] },
+    "license": { "type": "string", "minLength": 2, "maxLength": 120 },
+    "offline": { "const": true },
+    "entrypoints": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["identity", "user", "soul", "agents", "tools", "memory"],
+      "properties": {
+        "identity": { "const": "IDENTITY.md" },
+        "user": { "const": "USER.md" },
+        "soul": { "const": "SOUL.md" },
+        "agents": { "const": "AGENTS.md" },
+        "tools": { "const": "TOOLS.md" },
+        "memory": { "const": "MEMORY.md" }
+      }
+    },
+    "standards": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "version", "profile", "source", "url"],
+        "properties": {
+          "name": { "const": "SOUL-6" },
+          "version": { "type": "string" },
+          "profile": { "const": "canonical" },
+          "source": { "const": "AISoulHub.io" },
+          "url": { "const": "https://aisoulhub.io/about/review-metrics#soul6" }
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "summary", "sources"],
+      "properties": {
+        "mode": { "enum": ["original", "authorized", "inspired"] },
+        "summary": { "type": "string", "minLength": 2, "maxLength": 1000 },
+        "authorization": { "type": ["string", "null"], "maxLength": 1000 },
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["title", "type", "location"],
+            "properties": {
+              "title": { "type": "string", "minLength": 1 },
+              "type": { "enum": ["local-file", "user-description", "existing-soul", "other"] },
+              "location": { "type": "string", "minLength": 1 },
+              "license": { "type": ["string", "null"] },
+              "notes": { "type": ["string", "null"] }
+            }
+          }
+        }
+      }
+    },
+    "generator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version", "offline"],
+      "properties": {
+        "name": { "const": "AISoul Forge" },
+        "version": { "type": "string" },
+        "offline": { "const": true },
+        "host": { "type": ["string", "null"] }
+      }
+    },
+    "artifacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["soul6Report", "qualityCheck", "forgeReport", "auditionSuite", "auditionReport"],
+      "properties": {
+        "soul6Report": { "const": "soul6-report.json" },
+        "qualityCheck": { "const": "quality-check.md" },
+        "forgeReport": { "const": "forge-report.md" },
+        "auditionSuite": { "const": "auditions/suite.json" },
+        "auditionReport": { "const": "auditions/report.json" }
+      }
+    },
+    "createdAt": { "type": "string", "format": "date-time" }
+  }
+}

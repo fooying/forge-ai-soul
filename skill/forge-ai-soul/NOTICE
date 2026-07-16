@@ -1,0 +1,15 @@
+AISoul Forge contains two licensing scopes:
+
+1. Source code, scripts, Skill instructions, templates, schemas, fixtures, and
+   repository documentation other than spec/SOUL-6.md are licensed under MIT.
+2. The SOUL-6 standard text in spec/SOUL-6.md is licensed under CC BY 4.0.
+
+SOUL-6 originated at AISoulHub.io:
+https://aisoulhub.io/about/review-metrics#soul6
+
+Generated AI Soul packages are not automatically covered by the repository
+license. Their authors must choose an output license and respect the rights and
+licenses of all input materials.
+
+Use of SOUL-6 or AISoul Forge does not imply review, certification,
+endorsement, or publication by AISoulHub.io.
