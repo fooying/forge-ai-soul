@@ -9,7 +9,11 @@ update checks. Links to AISoulHub.io are passive attribution links only.
 
 ## Status
 
-This repository currently provides the first executable release candidate:
+The first public release is **v0.1.0 · Zaohua (造化)**. The codename comes from
+the line "Heaven and earth are the furnace; creation is the artisan" and
+reflects the project's local AI Soul forging model.
+
+This release provides:
 
 - A host-independent `forge-ai-soul` Skill
 - A versioned AI Soul package format
