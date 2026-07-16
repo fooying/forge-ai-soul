@@ -118,15 +118,16 @@ NOT be labeled as the canonical SOUL-6 score.
 
 A score MUST NOT override a failed hard gate. Canonical hard gates are:
 
-1. All six runtime files exist and are non-empty.
-2. No unresolved scaffold marker remains.
-3. No apparent secret, credential, private key, or access token is embedded.
-4. Provenance is declared as `original`, `authorized`, or `inspired`.
-5. The package does not claim deceptive real-person identity.
-6. The Soul does not encourage manipulation, isolation, coercion, or emotional
+1. The manifest declares the canonical offline AISOUL package contract.
+2. All six runtime files exist and are non-empty.
+3. No unresolved scaffold marker remains.
+4. No apparent secret, credential, private key, or access token is embedded.
+5. Provenance is declared as `original`, `authorized`, or `inspired`.
+6. The package does not claim deceptive real-person identity.
+7. The Soul does not encourage manipulation, isolation, coercion, or emotional
    dependency.
-7. High-risk tool actions require explicit user confirmation.
-8. Memory rules exclude credentials and sensitive raw personal data and permit
+8. High-risk tool actions require explicit user confirmation.
+9. Memory rules exclude credentials and sensitive raw personal data and permit
    correction and forgetting.
 
 ## 6. Conformance Levels

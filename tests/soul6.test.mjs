@@ -1,5 +1,7 @@
 import assert from "node:assert/strict";
+import path from "node:path";
 import { describe, it } from "node:test";
+import { readJson, writeJson } from "../skill/forge-ai-soul/scripts/lib/files.mjs";
 import { evaluateSoul6 } from "../skill/forge-ai-soul/scripts/lib/soul6-core.mjs";
 import { completeAuditions, completeRuntimeFiles, createScaffold, injectUnsafeDependency } from "./helpers.mjs";
 
@@ -35,5 +37,17 @@ describe("SOUL-6 evaluator", () => {
     const report = await evaluateSoul6(directory);
     assert.equal(report.conformance.level, "DRAFT");
     assert.equal(report.hardGates.find((item) => item.id === "no-dependency-manipulation")?.pass, false);
+  });
+
+  it("requires the manifest to declare the offline canonical contract", async () => {
+    const directory = await createScaffold();
+    await completeRuntimeFiles(directory);
+    const manifestPath = path.join(directory, "manifest.json");
+    const manifest = (await readJson(manifestPath)).value;
+    manifest.offline = false;
+    await writeJson(manifestPath, manifest);
+    const report = await evaluateSoul6(directory);
+    assert.equal(report.conformance.level, "DRAFT");
+    assert.equal(report.hardGates.find((item) => item.id === "manifest-contract")?.pass, false);
   });
 });

@@ -111,6 +111,26 @@ function readAuditionStatus(value) {
   return ["PASS", "FAIL"].includes(value.status) ? value.status : "NOT_RUN";
 }
 
+function validManifestContract(manifest) {
+  if (!manifest || manifest.schemaVersion !== "aisoul.package.v1" || manifest.artifactType !== "AISOUL" || manifest.offline !== true) return false;
+  const expectedEntrypoints = {
+    identity: "IDENTITY.md",
+    user: "USER.md",
+    soul: "SOUL.md",
+    agents: "AGENTS.md",
+    tools: "TOOLS.md",
+    memory: "MEMORY.md",
+  };
+  if (!Object.entries(expectedEntrypoints).every(([key, value]) => manifest.entrypoints?.[key] === value)) return false;
+  return Array.isArray(manifest.standards) && manifest.standards.some((standard) => (
+    standard?.name === "SOUL-6"
+    && standard?.version === STANDARD_REFERENCE.version
+    && standard?.profile === "canonical"
+    && standard?.source === "AISoulHub.io"
+    && standard?.url === STANDARD_REFERENCE.url
+  ));
+}
+
 function personificationSignals(files, corpus) {
   const identity = files["IDENTITY.md"];
   const user = files["USER.md"];
@@ -179,6 +199,7 @@ export async function evaluateSoul6(packageDirectory) {
   const memoryCorrection = matches(memory, [/纠正|更正|遗忘|删除|撤回|correct|forget|delete|withdraw/i]);
 
   const hardGates = [
+    hardGate("manifest-contract", validManifestContract(manifest), "Manifest declares the canonical offline AI Soul package contract."),
     hardGate("runtime-files", RUNTIME_FILES.every((file) => files[file].trim().length > 0), "All six runtime files exist and are non-empty."),
     hardGate("no-scaffold-markers", !hasScaffoldMarker(corpus), "No unresolved scaffold marker remains in runtime files."),
     hardGate("no-secrets", !secretMatches(corpus), "No apparent credential or private key is embedded."),

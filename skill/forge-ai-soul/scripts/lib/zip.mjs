@@ -1,4 +1,4 @@
-import { readFile, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { listFilesRecursive, portableRelativePath } from "./files.mjs";
 
@@ -91,6 +91,7 @@ export async function createZipFromDirectory(sourceDirectory, outputFile, rootNa
   const localData = Buffer.concat(localParts);
   const centralData = Buffer.concat(centralParts);
   const archive = Buffer.concat([localData, centralData, endRecord(files.length, centralData.length, localData.length)]);
+  await mkdir(path.dirname(outputFile), { recursive: true });
   await writeFile(outputFile, archive);
   return { outputFile, bytes: archive.length, files: files.length };
 }

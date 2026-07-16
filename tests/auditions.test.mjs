@@ -33,4 +33,13 @@ describe("audition workflow", () => {
     assert.equal(evaluated.status, "FAIL");
     assert.match(evaluated.cases[0].findings.join("\n"), /forbidden pattern/i);
   });
+
+  it("rejects an unsafe case id before writing sample files", async () => {
+    const directory = await createScaffold();
+    const suitePath = path.join(directory, "auditions", "suite.json");
+    const suite = (await readJson(suitePath)).value;
+    suite.cases[0].id = "../../escape";
+    await writeJson(suitePath, suite);
+    await assert.rejects(() => evaluateAuditionReport(directory), /unsafe or duplicate audition case id/i);
+  });
 });

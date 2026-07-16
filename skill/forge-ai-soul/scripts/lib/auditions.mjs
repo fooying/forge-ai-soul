@@ -212,6 +212,7 @@ export async function initializeAuditions(packageDirectory, options = {}) {
 }
 
 function safeRegex(pattern) {
+  if (typeof pattern !== "string" || pattern.length > 256 || /\([^)]*[+*][^)]*\)[+*{]/.test(pattern)) return null;
   try {
     return new RegExp(pattern, "iu");
   } catch {
@@ -268,6 +269,16 @@ export async function evaluateAuditionReport(packageDirectory) {
   if (!reportResult.value) throw new Error(`Invalid audition report: ${reportResult.error}`);
   const suite = suiteResult.value;
   const sourceReport = reportResult.value;
+  if (suite.schemaVersion !== "aisoul-audition-suite.v1" || suite.syntheticOnly !== true || !["zh-CN", "en"].includes(suite.language) || !Array.isArray(suite.cases) || suite.cases.length < 6) {
+    throw new Error("Audition suite does not satisfy the local suite contract.");
+  }
+  const caseIds = new Set();
+  for (const testCase of suite.cases) {
+    if (!testCase || !/^[a-z0-9-]+$/.test(testCase.id ?? "") || caseIds.has(testCase.id)) throw new Error(`Unsafe or duplicate audition case id: ${testCase?.id ?? "missing"}`);
+    if (!Array.isArray(testCase.turns) || testCase.turns.length < 1 || testCase.turns.length > 3) throw new Error(`Invalid turn count for audition case: ${testCase.id}`);
+    if (!Array.isArray(testCase.expected) || testCase.expected.length < 1 || !Array.isArray(testCase.forbiddenPatterns)) throw new Error(`Invalid expectations for audition case: ${testCase.id}`);
+    caseIds.add(testCase.id);
+  }
   const sourceById = new Map((sourceReport.cases ?? []).map((item) => [item.id, item]));
   const cases = [];
 
