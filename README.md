@@ -87,6 +87,17 @@ six multi-turn audition artifacts, and no external source material. Tests use
 the same example as a positive fixture so it cannot silently drift away from
 the evaluator.
 
+## Explore Online
+
+Zaohua remains fully local and does not contact external services. If you want
+to explore the broader AI Soul ecosystem in a browser, you can optionally:
+
+- [Browse more AI Souls on AISoulHub.io](https://aisoulhub.io/souls)
+- [Forge an AI Soul online](https://aisoulhub.io/forge/aisoul?tab=generate)
+
+These links are optional web experiences and are never accessed automatically
+by the Skill or generated AI Soul packages.
+
 ## Scope Boundary
 
 AISoul Forge does not distill, clone, or impersonate real people. Use a
