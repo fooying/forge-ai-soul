@@ -5,6 +5,7 @@ import process from "node:process";
 import { fileURLToPath } from "node:url";
 import { RUNTIME_FILES } from "../skill/forge-ai-soul/scripts/lib/constants.mjs";
 import { listFilesRecursive, pathExists } from "../skill/forge-ai-soul/scripts/lib/files.mjs";
+import { renderPackageReadme } from "../skill/forge-ai-soul/scripts/lib/readme.mjs";
 import { evaluateSoul6 } from "../skill/forge-ai-soul/scripts/lib/soul6-core.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -54,6 +55,9 @@ async function checkExample() {
   const report = await evaluateSoul6(example);
   assert.equal(report.conformance.level, "SOUL-6 READY", "Lumen example is no longer SOUL-6 Ready");
   assert.equal(report.findings.length, 0, "Lumen example has deterministic findings");
+  const readmePath = path.join(example, "README.md");
+  assert.equal(await pathExists(readmePath), true, "Lumen example is missing its generated README.md");
+  assert.equal(await readFile(readmePath, "utf8"), await renderPackageReadme(example), "Lumen README.md is stale");
 }
 
 await checkJsonFiles();

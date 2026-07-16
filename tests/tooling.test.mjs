@@ -15,6 +15,7 @@ describe("local package tooling", () => {
     const archive = await readFile(output);
     assert.equal(archive.subarray(0, 2).toString("ascii"), "PK");
     assert.match(archive.toString("utf8"), /lumen\/manifest\.json/);
+    assert.match(archive.toString("utf8"), /lumen\/README\.md/);
     assert.ok(result.files >= 10);
     assert.ok((await stat(output)).size > 1000);
   });

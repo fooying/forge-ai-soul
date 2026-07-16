@@ -16,6 +16,7 @@ This repository currently provides the first executable release candidate:
 - The SOUL-6 v1.0 specification and JSON report contract
 - Deterministic, dependency-free local validation
 - Synthetic audition suites and sanitized audition reports
+- Generated bilingual package READMEs with identity, usage, SOUL-6, and audition summaries
 - Local diff and ZIP packaging tools
 
 ## Install the Skill
@@ -56,6 +57,7 @@ An AI Soul package contains six runtime files:
 
 Quality and provenance artifacts are separate from runtime instructions:
 
+- `README.md`
 - `manifest.json`
 - `soul6-report.json`
 - `quality-check.md`
@@ -65,12 +67,17 @@ Quality and provenance artifacts are separate from runtime instructions:
 Audition transcripts are synthetic QA artifacts. They are not canon, runtime
 instructions, memories, or real user conversations.
 
+The generated `README.md` is the package's human-facing entry point. It is
+refreshed by initialization, validation, audition, and packaging commands, but
+hosts must not load it as runtime instructions.
+
 ## Complete Example
 
 [`examples/lumen`](examples/lumen) is a fully synthetic original Soul with six
-runtime files, a 100/100 canonical SOUL-6 report, six multi-turn audition
-artifacts, and no external source material. Tests use the same example as a
-positive fixture so it cannot silently drift away from the evaluator.
+runtime files, a generated package README, a 100/100 canonical SOUL-6 report,
+six multi-turn audition artifacts, and no external source material. Tests use
+the same example as a positive fixture so it cannot silently drift away from
+the evaluator.
 
 ## Scope Boundary
 

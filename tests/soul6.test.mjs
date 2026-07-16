@@ -57,4 +57,16 @@ describe("SOUL-6 evaluator", () => {
     assert.equal(report.conformance.level, "DRAFT");
     assert.equal(report.hardGates.find((item) => item.id === "manifest-contract")?.pass, false);
   });
+
+  it("requires the generated README artifact path in the manifest contract", async () => {
+    const directory = await createScaffold();
+    await completeRuntimeFiles(directory);
+    const manifestPath = path.join(directory, "manifest.json");
+    const manifest = (await readJson(manifestPath)).value;
+    delete manifest.artifacts.readme;
+    await writeJson(manifestPath, manifest);
+    const report = await evaluateSoul6(directory);
+    assert.equal(report.conformance.level, "DRAFT");
+    assert.equal(report.hardGates.find((item) => item.id === "manifest-contract")?.pass, false);
+  });
 });

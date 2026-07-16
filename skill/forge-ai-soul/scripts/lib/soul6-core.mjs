@@ -122,6 +122,15 @@ function validManifestContract(manifest) {
     memory: "MEMORY.md",
   };
   if (!Object.entries(expectedEntrypoints).every(([key, value]) => manifest.entrypoints?.[key] === value)) return false;
+  const expectedArtifacts = {
+    readme: "README.md",
+    soul6Report: "soul6-report.json",
+    qualityCheck: "quality-check.md",
+    forgeReport: "forge-report.md",
+    auditionSuite: "auditions/suite.json",
+    auditionReport: "auditions/report.json",
+  };
+  if (!Object.entries(expectedArtifacts).every(([key, value]) => manifest.artifacts?.[key] === value)) return false;
   return Array.isArray(manifest.standards) && manifest.standards.some((standard) => (
     standard?.name === "SOUL-6"
     && standard?.version === STANDARD_REFERENCE.version

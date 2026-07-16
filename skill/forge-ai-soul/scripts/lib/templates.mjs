@@ -3,6 +3,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { FORGE_NAME, FORGE_VERSION, RUNTIME_FILES, SOUL6_URL, SOUL6_VERSION } from "./constants.mjs";
 import { assertEmptyDirectory, assertSlug, normalizeLanguage, writeJson, writeText } from "./files.mjs";
+import { writePackageReadme } from "./readme.mjs";
 
 const currentDirectory = path.dirname(fileURLToPath(import.meta.url));
 const skillDirectory = path.resolve(currentDirectory, "..", "..");
@@ -54,6 +55,7 @@ export async function initializePackage(outputDirectory, input) {
     provenance: { mode: provenanceMode, summary: brief, authorization, sources: [] },
     generator: { name: FORGE_NAME, version: FORGE_VERSION, offline: true, host: input.host?.trim() || null },
     artifacts: {
+      readme: "README.md",
       soul6Report: "soul6-report.json",
       qualityCheck: "quality-check.md",
       forgeReport: "forge-report.md",
@@ -70,5 +72,6 @@ export async function initializePackage(outputDirectory, input) {
     "",
     language === "zh-CN" ? "- 创建本地 AI 灵魂包脚手架。" : "- Created the local AI Soul package scaffold.",
   ].join("\n"));
+  await writePackageReadme(outputDirectory);
   return manifest;
 }

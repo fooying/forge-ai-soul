@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { stat } from "node:fs/promises";
+import { readFile, stat } from "node:fs/promises";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
@@ -23,6 +23,9 @@ describe("forge CLI", () => {
     const initialized = run(["init", directory, "--name", "Lumen", "--slug", "lumen", "--language", "en"]);
     assert.equal(initialized.status, 0, initialized.stderr);
     assert.match(initialized.stdout, /Replace every \{\{FORGE:/);
+    const initializedReadme = await readFile(path.join(directory, "README.md"), "utf8");
+    assert.match(initializedReadme, /DRAFT/);
+    assert.match(initializedReadme, /Status: \*\*NOT_RUN\*\*/);
 
     const draft = run(["validate", directory, "--write"]);
     assert.equal(draft.status, 2);
@@ -33,6 +36,9 @@ describe("forge CLI", () => {
     const ready = run(["validate", directory, "--write"]);
     assert.equal(ready.status, 0, ready.stderr);
     assert.match(ready.stdout, /SOUL-6 READY/);
+    const readyReadme = await readFile(path.join(directory, "README.md"), "utf8");
+    assert.match(readyReadme, /SOUL-6 READY/);
+    assert.match(readyReadme, /Passed: \*\*6\/6\*\*/);
 
     const archive = path.join(root, "release", "lumen.zip");
     const packed = run(["pack", directory, "--output", archive]);

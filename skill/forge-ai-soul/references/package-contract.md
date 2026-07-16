@@ -11,9 +11,9 @@ Only these files define runtime behavior:
 - `TOOLS.md`
 - `MEMORY.md`
 
-Hosts must not automatically load `forge-report.md`, `quality-check.md`,
-`soul6-report.json`, `CHANGELOG.md`, or `auditions/` as runtime instructions or
-memory.
+Hosts must not automatically load `README.md`, `forge-report.md`,
+`quality-check.md`, `soul6-report.json`, `CHANGELOG.md`, or `auditions/` as
+runtime instructions or memory.
 
 ## Manifest
 
@@ -26,11 +26,16 @@ memory.
 - SOUL-6 standard name, version, canonical profile, source, and reference URL
 - Provenance mode, summary, authorization note, and local source descriptions
 - Generator name and version
-- Paths to quality and audition artifacts
+- Paths to the generated README, quality artifacts, and audition artifacts
 
 The SOUL-6 URL is passive attribution. The runtime must not fetch it.
 
 ## Quality Artifacts
+
+`README.md` is the generated human-facing package entry point. It summarizes
+identity, usage, SOUL-6 results, synthetic audition samples, generation data,
+and provenance. It is refreshed by initialization, report-writing, audition,
+and packaging commands, but remains non-runtime and non-canon.
 
 `soul6-report.json` is a deterministic local report with evaluator and standard
 versions. `quality-check.md` is its human-readable projection.

@@ -97,8 +97,9 @@
     "artifacts": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["soul6Report", "qualityCheck", "forgeReport", "auditionSuite", "auditionReport"],
+      "required": ["readme", "soul6Report", "qualityCheck", "forgeReport", "auditionSuite", "auditionReport"],
       "properties": {
+        "readme": { "const": "README.md" },
         "soul6Report": { "const": "soul6-report.json" },
         "qualityCheck": { "const": "quality-check.md" },
         "forgeReport": { "const": "forge-report.md" },

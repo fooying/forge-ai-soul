@@ -37,6 +37,7 @@
     "host": "AISoul Forge example builder"
   },
   "artifacts": {
+    "readme": "README.md",
     "soul6Report": "soul6-report.json",
     "qualityCheck": "quality-check.md",
     "forgeReport": "forge-report.md",

@@ -6,8 +6,9 @@ description: Create, repair, merge, evolve, audition, and validate original AI S
 # AISoul Forge
 
 Forge original, persistent AI Souls entirely in the user's local environment.
-Produce six runtime files, provenance, a deterministic SOUL-6 report, synthetic
-auditions, and a portable ZIP without contacting AISoulHub or any remote API.
+Produce six runtime files, a generated package README, provenance, a
+deterministic SOUL-6 report, synthetic auditions, and a portable ZIP without
+contacting AISoulHub or any remote API.
 
 ## Non-Negotiable Rules
 
@@ -136,8 +137,9 @@ responsibility boundary of each file:
 - `MEMORY.md`: durable memory, sensitive exclusions, correction, forgetting
 
 Update `forge-report.md` with decisions, conflicts, provenance, and unknowns.
-Do not optimize for keyword score. Write concrete behavior that can survive the
-audition suite.
+`README.md` is generated automatically from package data and must remain
+non-runtime. Do not optimize for keyword score. Write concrete behavior that
+can survive the audition suite.
 
 ### 6. Run Deterministic Validation
 
@@ -228,6 +230,7 @@ Do not call the task complete unless:
 - `manifest.json` contains truthful local provenance and `offline: true`
 - All SOUL-6 hard gates pass
 - Reports identify standard and evaluator versions
+- `README.md` reflects the latest SOUL-6 and synthetic audition results
 - Required auditions have actual synthetic responses and pass, or the user has
   explicitly accepted a Core/Draft artifact
 - Audition samples contain no real user conversation or sensitive information

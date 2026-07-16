@@ -5,6 +5,7 @@ import process from "node:process";
 import { initializeAuditions, evaluateAuditionReport } from "./lib/auditions.mjs";
 import { diffPackages, formatPackageDiff } from "./lib/diff.mjs";
 import { readJson, writeJson, writeText } from "./lib/files.mjs";
+import { writePackageReadme } from "./lib/readme.mjs";
 import { evaluateSoul6, formatSoul6Markdown } from "./lib/soul6-core.mjs";
 import { initializePackage } from "./lib/templates.mjs";
 import { createZipFromDirectory } from "./lib/zip.mjs";
@@ -79,6 +80,7 @@ async function writeQualityReports(directory, report) {
   const language = manifestResult.value?.language === "zh-CN" ? "zh-CN" : "en";
   await writeJson(path.join(directory, "soul6-report.json"), report);
   await writeText(path.join(directory, "quality-check.md"), formatSoul6Markdown(report, language));
+  await writePackageReadme(directory, { soul6Report: report });
 }
 
 async function initCommand(directory, flags) {
@@ -94,6 +96,7 @@ async function initCommand(directory, flags) {
     host: flags.host,
   });
   await initializeAuditions(output, { profiles: profiles(flags.profile) });
+  await writeQualityReports(output, await evaluateSoul6(output));
   process.stdout.write(`Initialized ${manifest.name} at ${output}\n`);
   process.stdout.write("Replace every {{FORGE:...}} marker before validation.\n");
 }
@@ -111,12 +114,14 @@ async function validateCommand(directory, flags) {
 async function auditionInitCommand(directory, flags) {
   const target = path.resolve(required(directory, "Package directory"));
   const result = await initializeAuditions(target, { profiles: profiles(flags.profile) });
+  await writeQualityReports(target, await evaluateSoul6(target));
   process.stdout.write(`Initialized ${result.suite.cases.length} synthetic audition cases.\n`);
 }
 
 async function auditionEvaluateCommand(directory) {
   const target = path.resolve(required(directory, "Package directory"));
   const report = await evaluateAuditionReport(target);
+  await writeQualityReports(target, await evaluateSoul6(target));
   process.stdout.write(`Audition ${report.status}: ${report.summary.passed}/${report.summary.total} passed.\n`);
   if (report.status !== "PASS") process.exitCode = 2;
 }
