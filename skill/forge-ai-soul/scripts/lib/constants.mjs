@@ -1,5 +1,5 @@
 export const FORGE_NAME = "AISoul Forge";
-export const FORGE_VERSION = "0.1.0";
+export const FORGE_VERSION = "0.2.0";
 export const SOUL6_VERSION = "1.0.0";
 export const EVALUATOR_VERSION = "0.1.0";
 export const SOUL6_URL = "https://aisoulhub.io/about/review-metrics#soul6";
