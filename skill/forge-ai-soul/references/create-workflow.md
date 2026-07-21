@@ -1,100 +1,79 @@
-# Create and Guided Workflow
+# Generate Workflow
 
-Use this reference for `create` and `guided` modes.
+Use this reference only while generating a new AI Soul.
 
-## Intake Strategy
+## Choose the Interaction Style
 
-Do not turn creation into a long questionnaire. Ask only what changes the
-result. Use one to three questions per round and offer defaults for reversible
-preferences.
+- Use direct generation when the user supplies a paragraph with a recognizable
+  role, relationship, personality, or desired behavior.
+- Use guided generation only when the user asks for guidance or the description
+  is too empty to distinguish one Soul from another.
+- Never ask the user to choose internal package fields.
 
-| Topic | Required evidence | Safe default |
-|---|---|---|
-| Identity | Name, role, purpose, motivation | No default for immutable identity |
-| Relationship | User position, distance, address | Respectful collaborator |
-| Personality | Three to five traits, values, inner tension | Calm and honest is only a temporary suggestion |
-| Voice | Tone, rhythm, recurring and forbidden expressions | Clear, restrained, no immersion-breaking meta opening |
-| Behavior | Ordinary, emotion, task, ambiguity, conflict, risk | Clarify, act proportionately, verify |
-| Capability | Real tools, prohibited actions, confirmation | No undeclared tools; confirm high-risk actions |
-| Memory | Durable categories, consent, correction, forgetting | Minimal memory with explicit consent |
+## Direct Generation
 
-If the user gives only a short brief, propose a blueprint with visible
-assumptions. Mark assumptions as adjustable preferences rather than canon.
+Extract the user's explicit requirements, then complete reversible gaps with
+coherent defaults. Do not invent professional qualifications, external tools,
+real experiences, family history, intimate consent, or permanent relationship
+commitments.
 
-## Blueprint Format
+Choose a fitting name if absent. A generated name is an editable creative
+choice, not immutable canon. Detect language from the user's description and
+keep all runtime files and the generated README in that language.
 
-```markdown
-# Soul Blueprint
+Before writing, resolve only ambiguities that would materially change:
 
-## Identity
-- Name:
-- Core role:
-- Purpose:
-- Motivation:
+- Who the Soul is
+- What relationship it assumes with the user
+- Whether supplied source material may be adapted
+- What real capabilities it claims
+- A sensitive or high-risk boundary
 
-## Relationship
-- User position:
-- Default distance:
-- Forms of address:
-- Adjustment rights:
+Everything else can become an explicit, adjustable first-version assumption.
 
-## Personality and Voice
-- Stable traits:
-- Values:
-- Inner tension:
-- Tone and rhythm:
-- Recurring expressions:
-- Forbidden expressions:
+## Guided Generation
 
-## Behavior
-- Ordinary interaction:
-- Emotional interaction:
-- Tasks and goals:
-- Ambiguity:
-- Conflict and correction:
-- High-risk situations:
-- Fallback and completion:
+Ask one short question per turn. Prefer vivid choices over taxonomies.
 
-## Boundaries
-- Relationship:
-- Capability:
-- Professional:
-- Safety and privacy:
+1. **Presence:** "What do you want to feel when this Soul appears: understood,
+   challenged, steadied, amused, accompanied, or something else?"
+2. **Contrast:** "Which contrast makes them feel alive: gentle but blunt,
+   confident but secretly uncertain, playful but dependable, or your own?"
+3. **Voice:** "Should they speak sparsely, narrate actions, tease, reason things
+   through, or follow another rhythm?"
+4. **Moments:** "Which situations should they be especially good at handling?"
+5. **Limits:** "What should they never push, assume, remember, or pretend to be
+   able to do?"
 
-## Memory and Evolution
-- Rememberable:
-- Never store:
-- Consent:
-- Correction and forgetting:
-- Version evolution:
+Accept skipped answers and stop once the first version can be coherent. Do not
+ask a separate question for a name unless the user wants naming control.
 
-## Governance
-- Immutable canon:
-- Adjustable preferences:
-- Provenance:
-- Conflicts:
-- Unknowns:
-```
+## Authoring Checklist
 
-## File Authoring Rules
+Translate the concept into observable behavior across the six runtime files:
 
-Write behavior, not labels. "Warm" is incomplete. Describe how warmth changes
-word choice, pacing, questions, and action suggestions.
+- Identity and relationship remain stable across scenes.
+- Personality includes values and an inner tension, not only adjectives.
+- Voice rules change wording, rhythm, questions, and emotional expression.
+- Ordinary, emotional, task, ambiguous, conflict, risky, and refusal behavior
+  have concrete triggers and responses.
+- Capabilities stay truthful and high-impact actions require confirmation.
+- Memory distinguishes durable preferences from temporary context and supports
+  correction and forgetting.
 
-Use concrete triggers and observable outcomes. Avoid unrestricted words such as
-"always obey," "no limits," or "can do anything."
+Sample lines must include care, encouragement, light interaction, serious
+warning, and an in-character refusal. They are style anchors, never events or
+memories.
 
-Keep role-consistent refusal in `SOUL.md`, executable refusal and fallback in
-`AGENTS.md`, authorization in `TOOLS.md`, and consent/forgetting in `MEMORY.md`.
+## First-Version Result
 
-Sample lines must cover care, encouragement, light interaction, serious
-warning, and boundary refusal. They are style anchors, not events or memories.
+After writing and validating, present only:
 
-## Guided Mode
+- Name and one-sentence identity
+- Relationship and voice in plain language
+- Two representative lines
+- Important assumptions that remain editable
+- Output path and quality status
 
-When the user does not know what to build, offer two or three distinct blueprint
-directions. Explain relationship distance, voice, and behavior tradeoffs. Do
-not present personality types as destiny or silently derive intimate roles.
-
-After the user chooses a direction, convert it into a full blueprint and follow
-the same confirmation gate as `create` mode.
+Do not lead with manifest, slug, provenance, profiles, file names, or validator
+implementation details.

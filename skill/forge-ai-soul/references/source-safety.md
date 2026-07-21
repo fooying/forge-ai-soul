@@ -1,4 +1,4 @@
-# Safety, Provenance, and Local-Only Operation
+# Source Safety and Local-Only Operation
 
 ## Offline Runtime
 

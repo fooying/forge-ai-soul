@@ -2,6 +2,7 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { FORGE_NAME, FORGE_VERSION, RUNTIME_FILES, SOUL6_URL, SOUL6_VERSION } from "./constants.mjs";
+import { resolveCreationDefaults } from "./creation-defaults.mjs";
 import { assertEmptyDirectory, assertSlug, normalizeLanguage, writeJson, writeText } from "./files.mjs";
 import { writePackageReadme } from "./readme.mjs";
 
@@ -16,15 +17,16 @@ function replaceKnownTokens(content, values) {
 }
 
 export async function initializePackage(outputDirectory, input) {
-  const name = input.name?.trim();
+  const defaults = resolveCreationDefaults(input);
+  const name = defaults.name;
   if (!name || name.length < 2 || name.length > 120) throw new Error("Name must contain 2 to 120 characters.");
-  const slug = assertSlug(input.slug?.trim() ?? "");
-  const language = normalizeLanguage(input.language ?? "en");
+  const slug = assertSlug(defaults.slug);
+  const language = normalizeLanguage(defaults.language);
   const provenanceMode = input.provenance ?? "original";
   if (!["original", "authorized", "inspired"].includes(provenanceMode)) throw new Error(`Unsupported provenance mode: ${provenanceMode}`);
   const authorization = input.authorization?.trim() || null;
   if (provenanceMode === "authorized" && !authorization) throw new Error("Authorized provenance requires --authorization.");
-  const brief = input.brief?.trim() || (language === "zh-CN" ? "根据用户确认的原创需求在纯本地环境创建。" : "Created locally from user-approved original requirements.");
+  const brief = input.brief?.trim() || defaults.description || (language === "zh-CN" ? "根据用户描述在纯本地环境创建。" : "Created locally from the user's description.");
   await assertEmptyDirectory(outputDirectory);
   const templateDirectory = path.join(skillDirectory, "assets", "templates", language);
   const values = { name, slug, brief };

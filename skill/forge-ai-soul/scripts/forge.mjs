@@ -8,6 +8,7 @@ import { readJson, writeJson, writeText } from "./lib/files.mjs";
 import { writePackageReadme } from "./lib/readme.mjs";
 import { evaluateSoul6, formatSoul6Markdown } from "./lib/soul6-core.mjs";
 import { initializePackage } from "./lib/templates.mjs";
+import { resolveCreationDefaults } from "./lib/creation-defaults.mjs";
 import { createZipFromDirectory } from "./lib/zip.mjs";
 import { FORGE_VERSION } from "./lib/constants.mjs";
 
@@ -53,23 +54,18 @@ function profiles(value) {
 function help() {
   return `AISoul Forge ${FORGE_VERSION}
 
-Pure local commands:
-  forge.mjs init <directory> --name <name> --slug <slug> [options]
-  forge.mjs validate <directory> [--write]
-  forge.mjs audition-init <directory> [--profile emotional-companion,tool-capable]
-  forge.mjs audition-evaluate <directory>
-  forge.mjs diff <before-directory> <after-directory> [--json]
-  forge.mjs pack <directory> [--output file.zip] [--allow-core|--allow-draft]
+Use the Skill through natural-language requests such as:
+  "Create a calm but candid companion who remembers small preferences."
+  "Let me try chatting with the Soul we just created."
+  "Evaluate this AI Soul with SOUL-6 and explain what feels unnatural."
+
+Local helper commands:
+  forge.mjs create "<description>" [--output <directory>] [--name <optional-name>]
+  forge.mjs evaluate <directory> [--write]
   forge.mjs version
 
-init options:
-  --language zh-CN|en
-  --brief <provenance summary>
-  --provenance original|authorized|inspired
-  --authorization <authorization note>
-  --license <output content license>
-  --host <local agent host name>
-  --profile emotional-companion,tool-capable
+Name, directory slug, language, and test coverage are inferred automatically.
+The AI agent handles guided creation, package authoring, previews, and live trial chat.
 
 The CLI never calls a remote API, uploads content, emits telemetry, or checks for updates.
 `;
@@ -84,21 +80,38 @@ async function writeQualityReports(directory, report) {
 }
 
 async function initCommand(directory, flags) {
-  const output = path.resolve(required(directory, "Output directory"));
+  const defaults = resolveCreationDefaults({
+    description: flags.description ?? flags.brief,
+    name: flags.name,
+    slug: flags.slug,
+    language: flags.language,
+  });
+  const output = path.resolve(typeof flags.output === "string"
+    ? flags.output
+    : typeof directory === "string" && directory.trim()
+      ? directory
+      : path.join(process.cwd(), "aisouls", defaults.slug));
   const manifest = await initializePackage(output, {
-    name: required(flags.name, "--name"),
-    slug: required(flags.slug, "--slug"),
-    language: flags.language ?? "en",
+    name: defaults.name,
+    slug: defaults.slug,
+    language: defaults.language,
     provenance: flags.provenance ?? "original",
     authorization: flags.authorization,
-    brief: flags.brief,
+    brief: defaults.description || flags.brief,
     license: flags.license,
     host: flags.host,
   });
-  await initializeAuditions(output, { profiles: profiles(flags.profile) });
+  const auditionProfiles = flags.profile ? profiles(flags.profile) : defaults.profiles;
+  await initializeAuditions(output, { profiles: auditionProfiles });
   await writeQualityReports(output, await evaluateSoul6(output));
-  process.stdout.write(`Initialized ${manifest.name} at ${output}\n`);
-  process.stdout.write("Replace every {{FORGE:...}} marker before validation.\n");
+  process.stdout.write(`Prepared ${manifest.name} at ${output}\n`);
+  process.stdout.write(`Language: ${manifest.language}; test coverage: ${auditionProfiles.length ? auditionProfiles.join(", ") : "core"}.\n`);
+  process.stdout.write("The AI agent must now replace every {{FORGE:...}} marker before evaluation.\n");
+}
+
+async function createCommand(description, flags) {
+  const value = required(flags.description ?? description, "A natural-language Soul description");
+  return initCommand(undefined, { ...flags, description: value });
 }
 
 async function validateCommand(directory, flags) {
@@ -164,7 +177,9 @@ async function main() {
     process.stdout.write(`${FORGE_VERSION}\n`);
     return;
   }
+  if (command === "create") return createCommand(first, flags);
   if (command === "init") return initCommand(first, flags);
+  if (command === "evaluate") return validateCommand(first, flags);
   if (command === "validate") return validateCommand(first, flags);
   if (command === "audition-init") return auditionInitCommand(first, flags);
   if (command === "audition-evaluate") return auditionEvaluateCommand(first);
