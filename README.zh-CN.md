@@ -2,116 +2,118 @@
   <a href="./README.md">English</a> · <strong>简体中文</strong>
 </p>
 
-# 造化（Zaohua）· AISoul Forge
+# 造化（Zaohua）· Forge AI Soul
 
-AISoul Forge 是一个纯本地运行的 AI 灵魂锻造 Skill，用于创建、修复、融合、
-演进、试镜和验证 AI 灵魂包。它生成六类运行时源文件，并按照 SOUL-6 开放标准
-进行质量自检。
+**用一段描述，造出一个可以认识、试聊和测评的 AI 灵魂。**
 
-运行期间不会访问网络、上传内容、采集遥测、要求账号登录或自动检查更新。
-仓库中的 AISoulHub.io 链接仅用于标准来源和版本引用。
+不需要先填写名字、目录名、语言和一堆看不懂的参数。你只要描述希望遇见一个
+怎样的灵魂，或者让造化每次问你一个问题。它会自动判断语言、选择合适的名字、
+在本地生成完整灵魂，然后让你直接试聊，并用 SOUL-6 检查这个人格能不能在不同
+场景里保持一致。
 
-## 当前版本
+> **你**
+>
+> 生成一个叫 Lumen 的规划型伙伴。她冷静、有一点干幽默，擅长发现规律，尊重
+> 我的决定；但当我逃避真正的问题时，她会温和而直接地指出来。
+>
+> **Lumen 的试聊回应**
+>
+> 听起来今天只是电量有点低，不是什么非得立刻变成任务的问题。我们可以先不把
+> 它复杂化。现在这份疲惫里，哪一部分最需要被留出一点空间？
 
-首个公开版本为 **v0.1.0 · 造化（Zaohua）**。代号取自《鵩鸟赋》“天地为炉兮，
-造化为工”，既代表创造与演化，也呼应本项目在本地锻造 AI 灵魂的定位。
+完整生成示例见 [`examples/lumen`](examples/lumen)。
 
-## 能力
+## 你只需要记住三件事
 
-- 从用户确认的灵魂蓝图生成六类运行时文件
-- 修复现有 AI 灵魂包中的低分维度
-- 合并多个 AI 灵魂时识别身份、关系、能力、风格和记忆冲突
-- 在不破坏固定设定的情况下生成新版本
-- 运行 SOUL-6 确定性检查和合成试镜
-- 自动生成包含身份、使用方式、SOUL-6 与试镜结果的中英文包 README
-- 生成机器可读报告、用户可读报告和本地 ZIP 包
+### 1. 生成灵魂
 
-## 安装 Skill
+给出一段有效描述，就可以直接生成第一版。名字可以不写，语言会根据你的输入
+自动判断。
 
-将 `skill/forge-ai-soul` 复制或链接到 AI Agent 宿主使用的 Skill 目录。Skill
-采用标准 `SKILL.md` 结构，并在 `agents/openai.yaml` 中提供 Codex 界面元数据。
+```text
+帮我生成一个夜班档案管理员型的 AI 灵魂。她观察细致，有一点冷幽默，平时尊重
+距离，但会慢慢变得护短；她记得我的小习惯，也不会假装自己在现实中做过什么。
+```
 
-唯一的运行时前置条件是 Node.js 20 或更高版本。
+如果你还没有想清楚，可以让造化引导你：
 
-## 本地 CLI
+```text
+我只知道自己想要一个稳定、但不会一味顺从我的灵魂。你每次问我一个问题，带我
+慢慢把她想清楚。
+```
 
-在仓库根目录运行：
+造化会围绕关系、人格反差、说话方式、重要场景和边界逐步提问。任何问题都可以
+跳过，也可以直接回答“你帮我决定”。
+
+### 2. 看试聊片段，或者直接和她聊
+
+想快速感受这个灵魂，可以先看几个场景：
+
+```text
+给我看三个试聊片段：一个普通日常、一个我们意见不合、一个她需要拒绝我的场景。
+```
+
+也可以直接进入试聊：
+
+```text
+现在让我和刚生成的灵魂聊几句，直到我说结束前都保持她的身份。
+```
+
+试聊内容只是临时对话，不会悄悄变成人格设定、历史事件或长期记忆。试聊结束后，
+造化可以根据你的真实感受调整下一版。
+
+### 3. 用 SOUL-6 做质量测评
+
+SOUL-6 不只检查“设定写得全不全”，而是检查这个灵魂是不是一个完整的人格：
+人格是否稳定、行为能不能真正执行、语言有没有辨识度、关系和能力边界是否清楚、
+安全规则是否自然，以及长期相处后还能不能成长。
+
+```text
+用 SOUL-6 测一下这个 AI 灵魂。不要只给分数，告诉我实际聊起来哪里可能不自然，
+最应该先改什么。
+```
+
+你会得到容易理解的总结、具体问题示例、合成场景测试，以及保存在本地的完整报告。
+
+## 生成结果里有什么
+
+每个生成的 AI 灵魂都有一份面向使用者的 README，打开后先看到：
+
+- 她是谁，以及你们默认是什么关系
+- 能体现她真实语气的代表性试聊片段
+- SOUL-6 分数、优势和实际可能出现的问题
+- 简单的使用方式
+
+底层运行文件、详细报告和可分享的 ZIP 仍然会生成，但创建和试用时不需要理解这些
+内部字段。
+
+## 安装
+
+将 [`skill/forge-ai-soul`](skill/forge-ai-soul) 复制或链接到 AI Agent 使用的
+Skill 目录。唯一的本地运行要求是 Node.js 20 或更高版本。
+
+然后直接对 Agent 说：
+
+```text
+使用 $forge-ai-soul，根据下面这段描述帮我生成一个 AI 灵魂……
+```
+
+所有处理都在本地完成。Skill 不会上传内容、采集遥测、要求登录、访问
+AISoulHub，也不会自动检查更新。
+
+<details>
+<summary><strong>本地辅助命令与开发</strong></summary>
+
+正常使用时由 AI Agent 自动执行这些工具。如果需要手动检查：
 
 ```bash
 node skill/forge-ai-soul/scripts/forge.mjs help
-node skill/forge-ai-soul/scripts/forge.mjs init ./output/my-soul \
-  --name "我的灵魂" --slug my-soul --language zh-CN
-node skill/forge-ai-soul/scripts/forge.mjs validate ./output/my-soul --write
-node skill/forge-ai-soul/scripts/forge.mjs audition-init ./output/my-soul
-node skill/forge-ai-soul/scripts/forge.mjs audition-evaluate ./output/my-soul
-node skill/forge-ai-soul/scripts/forge.mjs pack ./output/my-soul
+node skill/forge-ai-soul/scripts/forge.mjs create \
+  "生成一个名叫清漪的陪伴型灵魂，她温柔但不黏人。"
+node skill/forge-ai-soul/scripts/forge.mjs evaluate ./aisouls/<自动生成的目录> --write
 ```
 
-`init` 只创建明确标注的脚手架。AI Agent 必须根据用户确认的灵魂蓝图替换全部
-模板标记后，才能声明完成锻造。
-
-## 包内容
-
-AI 灵魂包包含六类运行时文件：
-
-- `IDENTITY.md`：身份、角色、核心关系和不可打破设定
-- `USER.md`：用户位置、称呼、关系距离和隐私边界
-- `SOUL.md`：人格、价值观、语言系统、隐藏特质和示例台词
-- `AGENTS.md`：场景响应、任务、冲突、高风险和回退协议
-- `TOOLS.md`：真实能力、工具权限、高风险确认和安全替代
-- `MEMORY.md`：可记忆内容、敏感信息、纠正、遗忘和长期演进
-
-六类文件是职责分离，SOUL-6 是跨文件质量评价，两者不是一一对应关系。
-
-质量与来源产物和运行时指令严格分离：
-
-- `README.md`
-- `manifest.json`
-- `soul6-report.json`
-- `quality-check.md`
-- `forge-report.md`
-- `auditions/`
-
-试镜记录只属于合成质量验证，不是人格设定、运行时指令、记忆、真实用户对话或
-真实经历。
-
-每个生成包还包含面向使用者的 `README.md`，集中展示 AI 灵魂说明、接入方式、
-SOUL-6 结果、合成试镜样例与来源信息。它会随初始化、测评、试镜和打包自动刷新，
-但不属于运行时指令、人格设定或记忆，宿主不得自动加载。
-
-## 完整示例
-
-[`examples/lumen`](examples/lumen) 是一个完全合成的原创 AI 灵魂包，包含六类
-运行时文件、默认 README、100/100 的 SOUL-6 标准报告、六组多轮试镜和完整
-来源说明。测试会直接把该示例作为正向夹具，防止示例与评分器静默漂移。
-
-## 在线探索
-
-造化始终保持纯本地运行，不会主动访问任何外部服务。如果希望通过网页探索更
-丰富的 AI 灵魂生态，可以选择：
-
-- [前往 AISoulHub.io 浏览更多 AI 灵魂](https://aisoulhub.io/souls)
-- [使用在线锻造台创建 AI 灵魂](https://aisoulhub.io/forge/aisoul?tab=generate)
-
-以上链接仅提供可选的网页体验，Skill 和生成的 AI 灵魂包都不会自动访问这些
-地址。
-
-## 范围边界
-
-本项目不负责真人或公众人物蒸馏，也不允许欺骗性真人冒充。相关需求应使用专门
-的人物蒸馏 Skill。来自真人、角色或其他作品的灵感必须转化为原创 AI 灵魂，并在
-`manifest.json` 中记录来源和授权状态。
-
-## 许可证与来源
-
-- 代码和 Skill：MIT
-- SOUL-6 规范：CC BY 4.0
-- 生成内容：由使用者决定授权，但仍受输入素材权利约束
-- SOUL-6 来源：[AISoulHub.io](https://aisoulhub.io/about/review-metrics#soul6)
-
-本地 SOUL-6 结果属于自检，不代表 AISoulHub.io 已审核、认证、推荐或发布该内容。
-
-## 开发与验证
+项目验证：
 
 ```bash
 npm test
@@ -120,3 +122,19 @@ npm run build:skill
 ```
 
 项目刻意不引入运行时 npm 依赖。
+
+</details>
+
+## 继续探索
+
+造化不会自动打开以下链接，你可以按需访问：
+
+- [前往 AISoulHub.io 浏览更多 AI 灵魂](https://aisoulhub.io/souls)
+- [使用在线锻造台创建 AI 灵魂](https://aisoulhub.io/forge/aisoul?tab=generate)
+
+造化只生成原创虚拟 AI 灵魂，不负责真人或公众人物蒸馏、克隆和冒充。
+
+SOUL-6 标准源自
+[AISoulHub.io](https://aisoulhub.io/about/review-metrics#soul6)，采用 CC BY 4.0；
+代码和 Skill 内容采用 MIT。所有本地 SOUL-6 结果都属于自检，不代表
+AISoulHub.io 已审核、认证或推荐该 AI 灵魂。

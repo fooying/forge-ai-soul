@@ -34,6 +34,9 @@ describe("generated package README", () => {
     assert.equal((readme.match(/`\[##########\]`/g) ?? []).length, 6);
     assert.match(readme, /auditions\/samples\/identity-and-relationship\.md/);
     assert.match(readme, /I hear the request, will preserve your agency/);
+    assert.match(readme, /## Try a Conversation/);
+    assert.ok(readme.indexOf("## Try a Conversation") < readme.indexOf("## SOUL-6 Evaluation"));
+    assert.match(readme, /<blockquote>/);
     assert.doesNotMatch(readme, /\{\{FORGE:/);
   });
 
@@ -41,9 +44,10 @@ describe("generated package README", () => {
     const directory = await createScaffold({ language: "zh-CN" });
     const readme = await refreshReadme(directory);
     assert.match(readme, /## 认识这个灵魂/);
-    assert.match(readme, /## 使用方式/);
+    assert.match(readme, /## 先试着聊聊/);
+    assert.match(readme, /## 使用这个灵魂/);
     assert.match(readme, /## SOUL-6 测评/);
-    assert.match(readme, /## 合成试镜/);
-    assert.match(readme, /不属于 AI 灵魂运行时指令/);
+    assert.match(readme, /## 完整试聊记录/);
+    assert.match(readme, /试聊均为合成示例/);
   });
 });
